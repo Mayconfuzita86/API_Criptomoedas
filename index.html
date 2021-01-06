@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CoinMarketCap</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" 
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    </head>
+    <body>
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item active" aria-current="page"><h1>LIST 10 - COIN MARKET CAP</h1></li>
+            </ol>
+          </nav>
+
+        
+        
+          <div class="d-flex p-3 bd-highlight">
+            <div id='coins'></div>
+          </div>
+
+        <script type="text/javascript">
+
+        //chave api
+
+    var apikey = {
+        key: '7c4b89fd-3480-4c49-a6c8-ea298405e3f2'
+    }
+
+    //get fetch requisition
+    fetch('https://pro-api.coinmarketcap.com/v1/cryptocurrency/map?CMC_PRO_API_KEY=' +apikey.key)
+    .then((response) => {
+        if(!response.ok) throw new Error('erro na requisição, status' + response.status);
+        return response.json();
+    })
+
+    .then((api) => {
+                
+                var texto = "";
+                // Get 10 coins and symbols 
+                for(let i = 0; i < 10; i++){
+                //Show API info
+                   texto = texto + `
+                  
+                    <div class="media">
+                        <img src="coins.jpg" class="align-self-center mr-3" alt="coin" width="100" height="60">
+                        <div class="media-body">
+                        <h5 class="mt-2">${api.data[i].name} - ${api.data[i].symbol} </h5>                                            
+                        <p>${api.data[i].first_historical_data}</p>
+                        </div>
+                    </div>               
+                    `;
+
+                    document.getElementById("coins").innerHTML = texto;                    
+                }
+            })
+
+    .catch((error) => {
+        console.error(error.message);
+    });
+
+        </script>
+    </body>
+</html>
